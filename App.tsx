@@ -3,6 +3,18 @@ import Navigation from "./src/navigation";
 import { AuthProvider } from "./src/provider/AuthProvider";
 import { ThemeProvider } from "react-native-rapi-ui";
 import { LogBox } from "react-native";
+import {
+  useFonts,
+  Inter_100Thin,
+  Inter_200ExtraLight,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black,
+} from "@expo-google-fonts/inter";
 
 export default function App() {
   const images = [
@@ -11,12 +23,23 @@ export default function App() {
     require("./assets/images/forget.png"),
   ];
 
-  // Ignore firebase v9 AsyncStorage warning
-  React.useEffect(() => {
-    LogBox.ignoreLogs([
-      "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
-    ]);
-  }, []);
+  let [fontsLoaded] = useFonts({
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return <></>;
+  }
+
+
 
   return (
     <ThemeProvider theme="dark" images={images}>
