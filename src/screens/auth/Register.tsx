@@ -32,27 +32,38 @@ export default function ({
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [phone, setPhone] = useState<string>("");
   const firestoreauth = useContext(AuthContext);
   const db = firestoreauth.firestore;
+  const [name, setName] = useState<string>("");
 
 
 
 
   async function register() {
     setLoading(true);
-    await createUserWithEmailAndPassword(auth, email, password).then(
-      async function (result: any) {
+    await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      console.log(userCredential);
+      async function addToFireStore() {
         try {
           const docRef = await addDoc(collection(db, "users"), {
-            first: "Ada",
-            last: "Lovelace",
-            born: 1815
+            email: userCredential.user.email,
+            name: name,
+            phone: phone,
+            uid: userCredential.user.uid,
           });
           console.log("Document written with ID: ", docRef.id);
+          firestoreauth.updateUserdata(userCredential.user.uid, name, email, phone)
+
         } catch (e) {
           console.error("Error adding document: ", e);
         }
       }
+      addToFireStore();
+
+    }
+
+
     ).catch(function (
       error: any
     ) {
@@ -153,26 +164,6 @@ export default function ({
 
             }}
           />
-          <Text style={{
-            color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, marginTop: 30, fontFamily: 'Inter_600SemiBold'
-          }}>Confirm Password</Text>
-          <TextInput
-            placeholder="Confirm your password"
-            value={password}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => setPassword(text)}
-            placeholderTextColor={isDarkmode ? themeColor.white200 : themeColor.gray100}
-            style={{
-              height: 60,
-              borderRadius: 2,
-              marginTop: 10,
-              paddingHorizontal: 10,
-              color: isDarkmode ? themeColor.white : themeColor.black,
-              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff'
-
-            }}
-          />
 
           <Text style={{
             color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, marginTop: 30, fontFamily: 'Inter_600SemiBold'
@@ -183,8 +174,16 @@ export default function ({
               width: '100%',
               backgroundColor: isDarkmode ? themeColor.dark : '#ffffff',
               marginTop: 10,
-
             }}
+
+
+            onChangeFormattedText={(text) => {
+              console.log(text);
+              setPhone(text);
+            }}
+
+
+
 
             textContainerStyle={{
               backgroundColor: isDarkmode ? themeColor.dark : '#ffffff',
@@ -196,12 +195,30 @@ export default function ({
             codeTextStyle={{
               color: isDarkmode ? themeColor.white : themeColor.black,
             }}
-
-
             defaultCode="US"
             layout="second"
             withDarkTheme
+          />
 
+          <Text style={{
+            color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, marginTop: 30, fontFamily: 'Inter_600SemiBold'
+          }}>Name</Text>
+          <TextInput
+            placeholder="Enter your nickname"
+            value={name}
+            autoCapitalize="none"
+            autoCorrect={false}
+            onChangeText={(text) => setName(text)}
+            placeholderTextColor={isDarkmode ? themeColor.white200 : themeColor.gray100}
+            style={{
+              height: 60,
+              borderRadius: 2,
+              marginTop: 10,
+              paddingHorizontal: 10,
+              color: isDarkmode ? themeColor.white : themeColor.black,
+              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff'
+
+            }}
           />
 
           <TouchableOpacity

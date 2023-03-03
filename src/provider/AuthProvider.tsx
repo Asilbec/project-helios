@@ -17,6 +17,7 @@ const AuthProvider = (props: Props) => {
   // user null = loading
   const [user, setUser] = useState<null | boolean>(null);
   const [firestore, setFirestore] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
     checkLogin();
@@ -26,6 +27,7 @@ const AuthProvider = (props: Props) => {
     onAuthStateChanged(auth, function (u) {
       if (u) {
         console.log("user is logged in");
+        console.log(u);
         setUser(true);
         // getUserData();
       } else {
@@ -34,6 +36,11 @@ const AuthProvider = (props: Props) => {
       }
     });
   }
+
+  const updateUserdata = (e: any) => {
+    setUserData(e);
+  }
+
 
   const declareFireStoreInstence = (e: any) => {
     const db = getFirestore(e);
@@ -45,6 +52,8 @@ const AuthProvider = (props: Props) => {
       value={{
         user,
         declareFireStoreInstence,
+        updateUserdata,
+        userData,
         firestore
       }}
     >

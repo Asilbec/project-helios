@@ -14,12 +14,37 @@ import {
   themeColor,
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
+import { Configuration, OpenAIApi } from "openai";
+
+const configuration = new Configuration({
+  apiKey: `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`
+});
+const openai = new OpenAIApi(configuration);
+
 
 export default function ({
   navigation,
 }: NativeStackScreenProps<MainStackParamList, "MainTabs">) {
   const { isDarkmode, setTheme } = useTheme();
   const auth = getAuth();
+
+  async function getData(params: any) {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: "Create an outline for an essay about Nikola Tesla and his contributions to technology:",
+      temperature: 0.3,
+      max_tokens: 150,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+    console.log(response)
+
+  }
+
+
+
+
   return (
     <Layout>
       <TopNav
@@ -61,6 +86,16 @@ export default function ({
               text="Go to second screen"
               onPress={() => {
                 navigation.navigate("SecondScreen");
+              }}
+              style={{
+                marginTop: 10,
+              }}
+            />
+
+            <Button
+              text="Go to second screen"
+              onPress={() => {
+                getData()
               }}
               style={{
                 marginTop: 10,
