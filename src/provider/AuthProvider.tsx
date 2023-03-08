@@ -27,7 +27,6 @@ const AuthProvider = (props: Props) => {
     onAuthStateChanged(auth, function (u) {
       if (u) {
         console.log("user is logged in");
-        console.log(u);
         setUser(true);
         // getUserData();
       } else {

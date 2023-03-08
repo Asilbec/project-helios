@@ -15,11 +15,29 @@ import {
 } from "react-native-rapi-ui";
 import { Ionicons } from "@expo/vector-icons";
 import { Configuration, OpenAIApi } from "openai";
+import axios from 'axios';
 
 const configuration = new Configuration({
   apiKey: `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`
 });
 const openai = new OpenAIApi(configuration);
+
+
+function addTestJournal() {
+  axios.post('http://localhost:8000/create/journal', {
+    title: 'test',
+    body: 'test',
+    Date: new Date(),
+    author: '8a5K2PGhiCRo9fN9lnsr8R1eKvh1'
+
+  })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 
 
 export default function ({
@@ -28,19 +46,7 @@ export default function ({
   const { isDarkmode, setTheme } = useTheme();
   const auth = getAuth();
 
-  async function getData(params: any) {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: "Create an outline for an essay about Nikola Tesla and his contributions to technology:",
-      temperature: 0.3,
-      max_tokens: 150,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-    });
-    console.log(response)
 
-  }
 
 
 
@@ -95,7 +101,7 @@ export default function ({
             <Button
               text="Go to second screen"
               onPress={() => {
-                getData()
+                addTestJournal();
               }}
               style={{
                 marginTop: 10,

@@ -15,12 +15,15 @@ import {
   themeColor,
 } from "react-native-rapi-ui";
 import PhoneInput from "react-native-phone-number-input";
+import { AntDesign } from '@expo/vector-icons';
+
 
 
 import { collection, addDoc, } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { AuthContext } from "../../provider/AuthProvider";
 import { Text, TextInput, Button, TouchableOpacity } from "react-native";
+
 
 
 
@@ -43,7 +46,6 @@ export default function ({
   async function register() {
     setLoading(true);
     await createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      console.log(userCredential);
       async function addToFireStore() {
         try {
           const docRef = await addDoc(collection(db, "users"), {
@@ -60,7 +62,6 @@ export default function ({
         }
       }
       addToFireStore();
-
     }
 
 
@@ -89,204 +90,187 @@ export default function ({
         <View
           style={{
             flex: 1,
-            justifyContent: "center",
             alignItems: "center",
+            justifyContent: "center",
           }}
         >
-        </View>
-        <View
-          style={{
-            flex: 3,
-            paddingHorizontal: 20,
-            paddingBottom: 20,
-            backgroundColor: isDarkmode ? 'black' : '#ededed'
-          }}
-        >
-          <Text
-            style={{
-              color: isDarkmode ? themeColor.white100 : themeColor.black,
-              fontSize: 50,
-              marginTop: 50,
-              fontFamily: 'Inter_900Black'
-            }}
-          >
-            Register
-          </Text>
-          <Text
-            style={{
-              color: isDarkmode ? themeColor.white100 : themeColor.gray100,
-              fontSize: 20,
-              paddingBottom: 20,
-              paddingTop: 5,
-              fontFamily: 'Inter_200ExtraLight'
-            }}
-          >
-            Create an account to continue
-          </Text>
-          <Text style={{
-            color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, fontFamily: 'Inter_600SemiBold'
-          }}>Email</Text>
-          <TextInput
-            placeholder="Enter your email"
-            value={email}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => setEmail(text)}
-            placeholderTextColor={isDarkmode ? themeColor.white200 : themeColor.gray100}
-            style={{
-              height: 60,
-              borderRadius: 2,
-              marginTop: 10,
-              paddingHorizontal: 10,
-              color: isDarkmode ? themeColor.white : themeColor.black,
-              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff'
 
-            }}
-          />
+          <View style={{
+            height: '50%',
+            alignItems: "center",
+            width: '100%',
+            justifyContent: "center",
 
-          <Text style={{
-            color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, marginTop: 30, fontFamily: 'Inter_600SemiBold'
-          }}>Password</Text>
-          <TextInput
-            placeholder="Enter your password"
-            value={password}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => setPassword(text)}
-            placeholderTextColor={isDarkmode ? themeColor.white200 : themeColor.gray100}
-            style={{
-              height: 60,
-              borderRadius: 2,
-              marginTop: 10,
-              paddingHorizontal: 10,
-              color: isDarkmode ? themeColor.white : themeColor.black,
-              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff'
-
-            }}
-          />
-
-          <Text style={{
-            color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, marginTop: 30, fontFamily: 'Inter_600SemiBold'
-          }}>Enter your phone number</Text>
-
-          <PhoneInput
-            containerStyle={{
-              width: '100%',
-              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff',
-              marginTop: 10,
-            }}
-
-
-            onChangeFormattedText={(text) => {
-              console.log(text);
-              setPhone(text);
-            }}
-
-
-
-
-            textContainerStyle={{
-              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff',
-            }}
-            textInputStyle={{
-              color: isDarkmode ? themeColor.white : themeColor.black,
-            }}
-
-            codeTextStyle={{
-              color: isDarkmode ? themeColor.white : themeColor.black,
-            }}
-            defaultCode="US"
-            layout="second"
-            withDarkTheme
-          />
-
-          <Text style={{
-            color: isDarkmode ? themeColor.white : themeColor.black, fontSize: 20, marginTop: 30, fontFamily: 'Inter_600SemiBold'
-          }}>Name</Text>
-          <TextInput
-            placeholder="Enter your nickname"
-            value={name}
-            autoCapitalize="none"
-            autoCorrect={false}
-            onChangeText={(text) => setName(text)}
-            placeholderTextColor={isDarkmode ? themeColor.white200 : themeColor.gray100}
-            style={{
-              height: 60,
-              borderRadius: 2,
-              marginTop: 10,
-              paddingHorizontal: 10,
-              color: isDarkmode ? themeColor.white : themeColor.black,
-              backgroundColor: isDarkmode ? themeColor.dark : '#ffffff'
-
-            }}
-          />
-
-          <TouchableOpacity
-            onPress={() => {
-              register();
-            }}
-            disabled={loading}
-            style={{
-              backgroundColor: '#1a77f2',
-              height: 60,
-              width: '100%',
-              marginTop: 40,
-              borderRadius: 2,
-            }}
-          >
-            <Text style={{
-              color: 'white', fontSize: 25, marginTop: 15, fontFamily: 'Inter_600SemiBold'
-              , textAlign: 'center',
-            }}>Register</Text>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 15,
-              justifyContent: "center",
-            }}
-          >
-            <Text>Already have an account?</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Login");
+          }}>
+            <Text
+              style={{
+                fontSize: 80,
+                fontWeight: "bold",
+                color: isDarkmode ? 'white' : 'black',
               }}
             >
-              <Text
-                style={{
-                  marginLeft: 5,
-                }}
-              >
-                Login here
-              </Text>
-            </TouchableOpacity>
+              HELIOS
+            </Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
+          <View style={
+            {
+              height: '60%',
               alignItems: "center",
-              marginTop: 30,
-              justifyContent: "center",
-            }}
-          >
+              width: '100%',
+              borderRadius: 10,
+              borderColor: isDarkmode ? '#bac4c8' : 'black',
+              backgroundColor: isDarkmode ? '#1e1e1e' : 'white',
+              padding: 20
+
+            }
+          }>
+            <TextInput
+              style={{
+                width: "100%",
+                height: 60,
+                borderColor: isDarkmode ? '#bac4c8' : 'black',
+                borderRadius: 5,
+                paddingLeft: 10,
+                marginBottom: 10,
+                color: isDarkmode ? 'white' : 'black',
+                backgroundColor: isDarkmode ? 'black' : 'white'
+              }}
+              placeholder="Username"
+              onChangeText={(text) => setName(text)}
+              value={name}
+            />
+
+            <TextInput
+              style={{
+                width: "100%",
+                height: 60,
+                borderColor: isDarkmode ? '#bac4c8' : 'black',
+                borderRadius: 5,
+                paddingLeft: 10,
+                marginTop: 20,
+                marginBottom: 10,
+                color: isDarkmode ? 'white' : 'black',
+                backgroundColor: isDarkmode ? 'black' : 'white'
+              }}
+              placeholder="Email"
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
+
+            <TextInput
+              style={{
+                width: "100%",
+                height: 60,
+                borderColor: isDarkmode ? '#bac4c8' : 'black',
+                borderRadius: 5,
+                paddingLeft: 10,
+                marginTop: 20,
+                marginBottom: 10,
+                color: isDarkmode ? 'white' : 'black',
+                backgroundColor: isDarkmode ? 'black' : 'white'
+              }}
+              placeholder="Username"
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+            />
+
+
             <TouchableOpacity
-              onPress={() => {
-                isDarkmode ? setTheme("light") : setTheme("dark");
+              style={{
+                width: "100%",
+                height: 60,
+                marginTop: 20,
+                backgroundColor: isDarkmode ? 'black' : 'white',
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 5,
+              }}
+              onPress={() => register()}
+            >
+              <Text style={{
+                color: isDarkmode ? 'white' : 'black',
+                fontSize: 14,
+                fontFamily: 'Inter_400Regular',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: 1,
+              }}>Sign up</Text>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                width: "100%",
+                height: 60,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginTop: 20,
+                borderTopWidth: 1,
+                borderTopColor: isDarkmode ? '#bac4c8' : 'black',
               }}
             >
-              <Text
+              <TouchableOpacity style={{
+                width: "48%",
+                height: 60,
+                marginTop: 20,
+                backgroundColor: isDarkmode ? 'black' : 'white',
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 5,
+              }}>
+                <AntDesign name="google" size={20} style={{
+                  marginRight: 10,
+                  color: isDarkmode ? 'white' : 'black'
+                }} color="black" />
+                <Text style={{
+                  color: isDarkmode ? 'white' : 'black',
+                  fontSize: 14,
+                  fontFamily: 'Inter_400Regular'
 
-                style={{
-                  marginLeft: 5,
-                }}
-              >
-                {isDarkmode ? "☀️ light theme" : "🌑 dark theme"}
-              </Text>
-            </TouchableOpacity>
+                }}>Sign up with Google</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={{
+                width: "48%",
+                height: 60,
+                marginTop: 20,
+                backgroundColor: isDarkmode ? 'black' : 'white',
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 5,
+
+              }}>
+                <AntDesign name="apple1" size={20} style={{
+                  marginRight: 10,
+                  color: isDarkmode ? 'white' : 'black'
+                }} color="black" />
+                <Text style={{
+                  color: isDarkmode ? 'white' : 'black',
+                  fontSize: 14,
+                  fontFamily: 'Inter_400Regular'
+
+                }}>Sign up with Apple</Text>
+              </TouchableOpacity>
+
+
+            </View>
+
+
+
+
+
+
           </View>
         </View>
+
+
       </ScrollView>
     </KeyboardAvoidingView>
   );
